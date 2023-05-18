@@ -4,30 +4,29 @@ print("Welcome to Validate Combination of Brackets")
 
 print("*****************************************")
 print("")
-
-string=input("Please enter your combination of brackets: ")
-
-open_list = ["[","{","("]
-close_list = ["]","}",")"]
-
-def check(myStr):
+def is_valid_string(s):
     stack = []
-    for i in myStr:
-        if i in open_list:
-            stack.append(i)
-        elif i in close_list:
-            pos = close_list.index(i)
-            if ((len(stack) > 0) and
-                (open_list[pos] == stack[len(stack)-1])):
-                stack.pop()
-            else:
-                return "false"
-    if len(stack) == 0:
-        return "true"
-    else:
-        return "false"
-  
-  
+    mapping = {')': '(', ']': '[', '}': '{'}
+    for char in s:
+        if char in mapping.values():  # Opening bracket
+            stack.append(char)
+        elif char in mapping.keys():  # Closing bracket
+            if not stack or stack[-1] != mapping[char]:
+                return False
+            stack.pop()
+    return len(stack) == 0
 
-print(string,"-", check(string))
-  
+while True:
+    # Take input from the user
+    input_string = input("Enter a string of brackets (q to quit): ")
+
+    if input_string.lower() == 'q':
+        break
+
+    # Check if the string is valid
+    if is_valid_string(input_string):
+        print("The input string is valid.")
+    else:
+        print("The input string is invalid.")
+
+print("Exiting the program.")
