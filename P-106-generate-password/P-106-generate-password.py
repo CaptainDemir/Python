@@ -11,7 +11,7 @@ while True:
 
  digits = list(string.digits)
 
- user_name= input("Please enter a user name: ")
+ user_name= input("Please enter a user full name (without any spaces) : ")
 
  password = []
  for i in range(3):
