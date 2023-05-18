@@ -3,84 +3,48 @@ print("Welcome to Phonebook Application")
 print("**********************************")
 print("")
 
-def welcome():
-    
-    entry = int(input(""" 
-                    >>>Py Contact Book commands are: 1,2 and 3 <<<
-                    >>>What would you like to do?<<<
-                    1. Find phone number
-                    2. Insert a phone number
-                    3. Delete a person from the phonebook 
-                    4. Terminate
-                    Select operation on Phonebook App (1/2/3) :  """))
-    
-   
-    return entry
+phonebook = {}  # Empty phonebook
 
+def find_contact():
+    name = input("Enter the name to find the phone number: ")
+    if name in phonebook:
+        print("Phone number:", phonebook[name])
+    else:
+        print("Contact not found.")
 
+def insert_contact():
+    name = input("Enter the name to insert: ")
+    number = input("Enter the phone number: ")
+    phonebook[name] = number
+    print("Contact inserted successfully.")
 
-def phonebook():
-    
-    contact = {}
-    
-    
-    while True:
-        
-        
-        entry = welcome()
-        
-        
-        if entry == 1:
-            
-            if bool(contact) != False:
-                for isim, numara  in contact.items():
-                    print(isim, ':', numara)
-            else:
-                print('You have an empty phonebook! Go back to the menu to add a new contact')
-        elif entry == 2:
-            phone_number = input('Please Enter a number: ')
-            contact_name = input('What would you like to Save the name as? Enter in the format "FirstName,LastName".: ')
-            
-            if phone_number not in contact.items():
-                contact.update({contact_name:phone_number})
-                print('Contact successfully saved')
-                print('Your updated phonebook is Shown below: ')
-                for isim , numara in contact.items():
-                    print( isim , ':', numara)
-            else:
-                print('That contact already exits in your Phonebook')
-                
-        
-        elif entry == 3:
-            name = input('Enter the name of the contact you wish to delete: ')
-            if name in contact:
-                print('The contact is',name,':',contact[name])
-                
-            else:
-                print('That contact does not exist! Return to the main menu to enter the contact')
-            
-            
-            confirm = input('Are you sure you wish to delete this contact? Yes/No: ')
-            if confirm.capitalize() == 'Yes':
-                contact.pop(name,None)
-                for isim, numara in contact.items():
-                    print('Your Updated Phonebook is shown below:')
-                    print(isim , ':', numara )
-            
-            else:
-                print('Return to Main Menu')
-           
-        elif entry == 4:
-            print('Thanks for using the Phonebook Application')
-            break
-            
-          
-        else:
-            print('Incorrect Entry!')
-            
-            
-        
+def delete_contact():
+    name = input("Enter the name to delete: ")
+    if name in phonebook:
+        del phonebook[name]
+        print("Contact deleted successfully.")
+    else:
+        print("Contact not found.")
 
-    
+def terminate():
+    print("Phonebook application terminated.")
+    exit()
 
-phonebook()
+while True:
+    print("Welcome to the phonebook application")
+    print("1. Find phone number")
+    print("2. Insert a phone number")
+    print("3. Delete a person from the phonebook")
+    print("4. Terminate")
+    choice = input("Select operation on Phonebook App (1/2/3/4): ")
+
+    if choice == "1":
+        find_contact()
+    elif choice == "2":
+        insert_contact()
+    elif choice == "3":
+        delete_contact()
+    elif choice == "4":
+        terminate()
+    else:
+        print("Invalid choice. Please try again.")
