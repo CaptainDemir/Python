@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      volumes:
+        - name: secret-volume
+          emptyDir: {}
+      containers:
+        - name: database
+          image: your-database-image
+          envFrom:
+            - secretRef:
+                name: secret-fetcher
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-volume
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-volume
+                  key: password
+            - name: MYSQL_HOST
+              value: your-mysql-host
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_DATABASE
+              value: your-database-name
+          # ... other configuration for your database container
+      initContainers:
+        - name: secret-fetcher
+          image: your-registry/your-image-name
+          env:
+            - name: SECRET_NAME
+              value: my-database-credentials
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /secrets
+          # ... other configuration for the init container
